@@ -87,4 +87,3 @@ if uploaded_img:
         st.warning("Could not compute color distribution.")
 else:
     st.info("Please upload an image to begin.")
-
