@@ -37,7 +37,7 @@ streamlit run color_detector.py
 
 ### 4. Open in your browser:
 
-Go to the local URL shown in your terminal (usually [http://localhost:8501](https://color-detection-from-images-luxcnjgvbjkbrprtdtrkyb.streamlit.app/)).
+Go to the local URL shown in your terminal (usually https://color-detection-from-images-luxcnjgvbjkbrprtdtrkyb.streamlit.app/ ).
 
 ---
 
