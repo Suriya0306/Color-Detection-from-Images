@@ -106,10 +106,3 @@ elif page == "📊 Color Pie Chart":
             f"<span style='vertical-align:middle;font-size:16px'>{label}</span>",
             unsafe_allow_html=True
         )
-
-# Footer
-st.markdown(
-    "<hr><center>Made with ❤️ using <b>Streamlit</b> & <b>Python</b> | "
-    "<a href='https://github.com/Suriya0306' target='_blank'>GitHub</a></center>",
-    unsafe_allow_html=True
-)
