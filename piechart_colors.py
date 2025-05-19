@@ -9,20 +9,30 @@ def load_colors(csv_path):
     return df
 
 st.set_page_config(page_title="Color Pie Chart", layout="centered")
-st.title("🎨 Color Dataset Pie Chart")
+st.title("🎨 Color Dataset Pie Chart with RGB Values")
 
 color_data = load_colors("colors.csv")
 
 # Prepare data for the pie chart
-labels = color_data['color_name']
+labels = [
+    f"{row['color_name']} ({row['R']},{row['G']},{row['B']})"
+    for _, row in color_data.iterrows()
+]
+
 # Convert RGB to hex for matplotlib
 def rgb2hex(row):
     return "#{:02x}{:02x}{:02x}".format(row['R'], row['G'], row['B'])
 colors = color_data.apply(rgb2hex, axis=1)
 
+# Equal-sized slices (1 for each color)
+sizes = [1] * len(labels)
+
 # Plot pie chart
-fig, ax = plt.subplots(figsize=(8, 8))
-ax.pie([1]*len(labels), labels=labels, colors=colors, startangle=90, counterclock=False, wedgeprops=dict(width=0.5))
-ax.set_title("Pie Chart of All Colors in Dataset")
+fig, ax = plt.subplots(figsize=(9, 9))
+wedges, texts = ax.pie(
+    sizes, labels=labels, colors=colors, startangle=90, counterclock=False,
+    wedgeprops=dict(width=0.4, edgecolor='w')
+)
+ax.set_title("Pie Chart of All Colors with Names and RGB Values")
 
 st.pyplot(fig)
