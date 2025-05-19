@@ -111,4 +111,5 @@ elif page == "📊 Color Pie Chart":
 st.markdown(
     "<hr><center>Made with ❤️ using <b>Streamlit</b> & <b>Python</b> | "
     "<a href='https://github.com/Suriya0306' target='_blank'>GitHub</a></center>",
+)
     
