@@ -75,38 +75,37 @@ if page == "🎯 Color Detector":
 
 elif page == "📊 Color Pie Chart":
     st.markdown("<h1 style='color:#6C63FF;'>Color Pie Chart</h1>", unsafe_allow_html=True)
-    st.write("View all colors in the dataset as a pie chart. Each slice is labeled with the color name, RGB values, and its percentage.")
+    st.write("View all colors in the dataset as a pie chart. Each slice is labeled with the color name and RGB values.")
 
     labels = [
         f"{row['color_name']} ({row['R']},{row['G']},{row['B']})"
         for _, row in color_data.iterrows()
     ]
     hex_colors = color_data.apply(rgb2hex, axis=1)
-    sizes = [1] * len(labels)  # All equal since it's a color palette
+    sizes = [1] * len(labels)
 
-    # Pie chart with % display
+    # Pie chart
     fig, ax = plt.subplots(figsize=(8, 8))
-    wedges, texts, autotexts = ax.pie(
+    wedges, texts = ax.pie(
         sizes,
-        labels=labels,
+        labels=None,
         colors=hex_colors,
         startangle=90,
         counterclock=False,
-        wedgeprops=dict(width=0.4, edgecolor='w'),
-        autopct='%1.1f%%',
-        textprops={'fontsize': 10}
+        wedgeprops=dict(width=0.4, edgecolor='w')
     )
-    for autotext in autotexts:
-        autotext.set_color('black')
-        autotext.set_fontweight('bold')
-
-    ax.set_title("Pie Chart of All Colors with Names, RGB Values, and Percentage", fontsize=16, color="#6C63FF")
+    ax.set_title("Pie Chart of All Colors", fontsize=18, color="#6C63FF")
     ax.axis('equal')
     st.pyplot(fig)
 
-    # Optionally, show raw data
-    with st.expander("See Raw Color Data"):
-        st.dataframe(color_data)
+    # Custom Legend
+    st.markdown("#### Legend")
+    for label, color in zip(labels, hex_colors):
+        st.markdown(
+            f"<div style='display:inline-block;width:30px;height:20px;background:{color};border-radius:4px;margin-right:8px;vertical-align:middle'></div>"
+            f"<span style='vertical-align:middle;font-size:16px'>{label}</span>",
+            unsafe_allow_html=True
+        )
 
 # Footer
 st.markdown(
