@@ -75,35 +75,42 @@ if page == "🎯 Color Detector":
 
 elif page == "📊 Color Pie Chart":
     st.markdown("<h1 style='color:#6C63FF;'>Color Pie Chart</h1>", unsafe_allow_html=True)
-    st.write("View all colors in the dataset as a pie chart. Each slice is labeled with the color name and RGB values.")
+    st.write("View all colors in the dataset as a pie chart. Each slice is labeled with the color name, RGB values, and its percentage.")
 
     labels = [
         f"{row['color_name']} ({row['R']},{row['G']},{row['B']})"
         for _, row in color_data.iterrows()
     ]
     hex_colors = color_data.apply(rgb2hex, axis=1)
-    sizes = [1] * len(labels)
+    sizes = [1] * len(labels)  # All equal since it's a color palette
 
-    # Pie chart
+    # Pie chart with % display
     fig, ax = plt.subplots(figsize=(8, 8))
-    wedges, texts = ax.pie(
+    wedges, texts, autotexts = ax.pie(
         sizes,
-        labels=None,
+        labels=labels,
         colors=hex_colors,
         startangle=90,
         counterclock=False,
-        wedgeprops=dict(width=0.4, edgecolor='w')
+        wedgeprops=dict(width=0.4, edgecolor='w'),
+        autopct='%1.1f%%',
+        textprops={'fontsize': 10}
     )
-    ax.set_title("Pie Chart of All Colors", fontsize=18, color="#6C63FF")
+    for autotext in autotexts:
+        autotext.set_color('black')
+        autotext.set_fontweight('bold')
+
+    ax.set_title("Pie Chart of All Colors with Names, RGB Values, and Percentage", fontsize=16, color="#6C63FF")
     ax.axis('equal')
     st.pyplot(fig)
 
-    # Custom Legend
-    st.markdown("#### Legend")
-    for label, color in zip(labels, hex_colors):
-        st.markdown(
-            f"<div style='display:inline-block;width:30px;height:20px;background:{color};border-radius:4px;margin-right:8px;vertical-align:middle'></div>"
-            f"<span style='vertical-align:middle;font-size:16px'>{label}</span>",
-            unsafe_allow_html=True
-        )
+    # Optionally, show raw data
+    with st.expander("See Raw Color Data"):
+        st.dataframe(color_data)
 
+# Footer
+st.markdown(
+    "<hr><center>Made with ❤️ using <b>Streamlit</b> & <b>Python</b> | "
+    "<a href='https://github.com/Suriya0306' target='_blank'>GitHub</a></center>",
+    unsafe_allow_html=True
+)
